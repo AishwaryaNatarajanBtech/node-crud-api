@@ -3,9 +3,13 @@ let users = [
     { id: 2, name: "Bob" }
 ];
 
-export const getAllUsers = () => {
-    return users;
-};
+export const getAllUsers = async () => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(users);
+        }, 500); 
+    });
+}
 
 export const getUserById = (id) => {
     return users.find(u => u.id === id);
