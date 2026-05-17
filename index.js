@@ -2,7 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 
-import router from "./routes/userRoutes.js";
+import userRouter from "./routes/userRoutes.js";
+import authRouter from "./routes/authRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { requestTime } from "./middleware/requestTime.js";
 
@@ -23,8 +24,8 @@ app.use(requestTime);
 
 
 //routes with request and response
-app.use("/users", router);
-
+app.use("/users", userRouter);
+app.use("/auth", authRouter);
 //middleware for handling errors - this should be registered after all routes, so that it can catch any errors thrown in the route handlers
 app.use(errorHandler);
 
