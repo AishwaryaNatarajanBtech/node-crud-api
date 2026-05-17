@@ -12,9 +12,9 @@ export const getUsers = async (req, res, next) => { //next parameter is added to
     }
 };
 
-export const getUser = (req, res) => {
+export const getUser = async (req, res) => {
     const id = parseInt(req.params.id);
-    const user = getUserById(id);
+    const user = await getUserById(id);
 
     if (!user) {
         return res.status(404).json({ message: "User not found" });
@@ -22,7 +22,7 @@ export const getUser = (req, res) => {
     res.json(user);
 };
 
-export const createUser = (req, res) => {
+export const createUser = async (req, res) => {
     const newUser = req.body;
 
     if(newUser.name === undefined) {
@@ -30,13 +30,13 @@ export const createUser = (req, res) => {
         return res.status(400).json({ message: "Name is required" });
     }
 
-    const addedUser = addUser(newUser);
+    const addedUser = await addUser(newUser.name, newUser.email);
     res.status(201).json({ message: "User added", user: addedUser });
 };
 
-export const removeUser = (req, res) => {
+export const removeUser = async (req, res) => {
     const id = parseInt(req.params.id);
-    const success = deleteUser(id);
+    const success = await deleteUser(id);
 
     if (!success) {
         return res.status(404).json({ message: "User not found" });
@@ -44,9 +44,9 @@ export const removeUser = (req, res) => {
     res.json({ message: "User deleted" });
 };
 
-export const modifyUser = (req, res) => {
+export const modifyUser = async (req, res) => {
     const id = parseInt(req.params.id);
-    const user = updateUser(id, req.body);
+    const user = await updateUser(id, req.body.name, req.body.email);
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }

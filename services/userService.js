@@ -1,3 +1,26 @@
+import {getAllUsersRepo, getUserByIdRepo, addUserRepo, deleteUserRepo, updateUserRepo} from "../repositories/userRepository.js";
+
+export const getAllUsers = async () => {
+    return await getAllUsersRepo();
+};
+
+export const getUserById = async (id) => {
+    return await getUserByIdRepo(id);
+};
+
+export const addUser = async (name, email) => {
+    return await addUserRepo(name, email);
+};
+
+export const updateUser = async (id, name, email) => {
+    return await updateUserRepo(id, name, email);
+};
+
+export const deleteUser = async (id) => {
+    return await deleteUserRepo(id);
+};
+
+/*
 let users = [
     { id: 1, name: "Alice" },
     { id: 2, name: "Bob" }
@@ -38,3 +61,4 @@ export const updateUser = (id, updatedUser) => {
     }
     return null;
 };
+*/
