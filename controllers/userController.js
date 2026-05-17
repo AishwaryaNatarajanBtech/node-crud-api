@@ -1,8 +1,15 @@
-import {getAllUsers, getUserById, addUser, deleteUser, updateUser} from "../services/userService.js";
+//import {getAllUsers, getUserById, addUser, deleteUser, updateUser} from "../services/userService.js";
+import {getAllUsers, getUserById, deleteUser, updateUser} from "../services/userService.js";
+
 
 export const getUsers = async (req, res, next) => { //next parameter is added to pass the error to the errorHandler middleware registered in index.js
     try {
-        const users = await getAllUsers();
+        const page = parseInt(req.query.page) || 1;   //get the page number from query parameters, default to 1 if not provided
+        const limit = parseInt(req.query.limit) || 20;  //get the limit from query parameters, default to 20 if not provided
+        const offset = (page - 1) * limit;   //calculate the offset for pagination
+
+
+        const users = await getAllUsers(limit, offset);
         res.json({
             requestTime: req.requestTime,   //attribute requestTime set by requestTime middleware registered in index.js, before the routes
             data : users
@@ -22,6 +29,7 @@ export const getUser = async (req, res) => {
     res.json(user);
 };
 
+/*
 export const createUser = async (req, res) => {
     const newUser = req.body;
 
@@ -33,6 +41,7 @@ export const createUser = async (req, res) => {
     const addedUser = await addUser(newUser.name, newUser.email);
     res.status(201).json({ message: "User added", user: addedUser });
 };
+*/
 
 export const removeUser = async (req, res) => {
     const id = parseInt(req.params.id);

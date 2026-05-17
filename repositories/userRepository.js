@@ -1,7 +1,12 @@
 import pool from "../config/db.js";
 
-export const getAllUsersRepo = async () => {
-    const result = await pool.query("SELECT * FROM users ORDER BY id");
+export const findUserByEmailRepo = async (email) => {
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    return result.rows[0];
+};
+
+export const getAllUsersRepo = async (limit, offset) => {
+    const result = await pool.query("SELECT * FROM users ORDER BY id LIMIT $1 OFFSET $2", [limit, offset]);
     return result.rows;
 };
 
@@ -10,8 +15,8 @@ export const getUserByIdRepo = async (id) => {
     return result.rows[0];
 };
 
-export const addUserRepo = async (name, email) => {
-    const result = await pool.query("INSERT INTO users (name, email) values ($1, $2) RETURNING *", [name, email]);
+export const addUserRepo = async (name, email, hashedPassword, role) => {
+    const result = await pool.query("INSERT INTO users (name, email, password, role) values ($1, $2, $3, $4) RETURNING id, name, email, role", [name, email, hashedPassword, role]);  //skip password to be returned in the response via RETURNING clause, for security reasons
     return result.rows[0];
 };
 

@@ -1,16 +1,22 @@
-import {getAllUsersRepo, getUserByIdRepo, addUserRepo, deleteUserRepo, updateUserRepo} from "../repositories/userRepository.js";
+//import {getAllUsersRepo, getUserByIdRepo, addUserRepo, deleteUserRepo, updateUserRepo} from "../repositories/userRepository.js";
+import {getAllUsersRepo, getUserByIdRepo, deleteUserRepo, updateUserRepo} from "../repositories/userRepository.js";
+import bcrypt from "bcrypt";
 
-export const getAllUsers = async () => {
-    return await getAllUsersRepo();
+export const getAllUsers = async (limit, offset) => {
+    return await getAllUsersRepo(limit, offset);
 };
 
 export const getUserById = async (id) => {
     return await getUserByIdRepo(id);
 };
 
-export const addUser = async (name, email) => {
-    return await addUserRepo(name, email);
+/*
+export const addUser = async (name, email, password) => {
+    const hashedPassword = await bcrypt.hash(password, 10); //hash the password with a salt rounds of 10
+
+    return await addUserRepo(name, email, hashedPassword);
 };
+*/
 
 export const updateUser = async (id, name, email) => {
     return await updateUserRepo(id, name, email);
